@@ -31,9 +31,12 @@ echo "Wygenerowane hasło: ${hasloBazyDanych}"
 # Dodanie domeny:
 devil www add "${projektName}.kdevserver2.usermd.net"
 
-devil www options "${projectName}.kdevserver2.usermd.net" php_openbasedir "/usr/home/kdevserver2/domains/${projectName}.kdevserver2.usermd.net:/tmp:/usr/share:/usr/local/share:/dev"
+devil www options "${projektName}.kdevserver2.usermd.net" php_openbasedir "/usr/home/kdevserver2/domains/${projektName}.kdevserver2.usermd.net:/tmp:/usr/share:/usr/local/share:/dev"
 
 # Dodanie bazy danych - hasło podawane dwukrotnie przez stdin
+
+echo ""
+echo ""
 
 echo "Za chwile wpisz wygenerowane wczesniej haslo" 
 
@@ -59,8 +62,6 @@ cd "${targetDir}" || { echo "Nie można przejść do katalogu ${targetDir}"; exi
 # Konfiguracja katalogów i instalacja zależności
 rm -rf public_html
 ln -s public public_html
-php80 ../../composer/composer install
-php80 bin/console doctrine:migrations:migrate
 
 
 # Generowanie pliku .env.local
@@ -77,4 +78,10 @@ FRONTEND_BASE_URL='https://${projektName}.netlify.app/'
 MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
 EOF
 
-echo "Skrypt zakończył działanie pomyślnie."
+
+php80 ../../composer/composer install
+php80 bin/console doctrine:migrations:migrate
+
+
+
+echo "Skrypt zakończył działanie."
